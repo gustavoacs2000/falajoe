@@ -553,12 +553,12 @@ export default function LandingDossieJoeValle() {
           <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
             DOSSIÊ ELEITORAL — CICLO 2026
           </div>
-          <h1
+          {/* <h1
             className="font-serif text-4xl sm:text-5xl lg:text-[52px] leading-[1.12] font-bold text-[#2B2118] mt-5 mb-9 max-w-[640px]"
             style={{ textWrap: 'pretty' }}
           >
             As propostas aqui já foram testadas — em lei.
-          </h1>
+          </h1> */}
 
           <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_400px] lg:grid-cols-[minmax(0,1fr)_460px] gap-x-10 lg:gap-x-14 gap-y-8 items-start">
             {/* Arte da campanha — reduzida e centralizada no mobile, coluna esquerda no desktop */}
