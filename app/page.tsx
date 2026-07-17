@@ -47,11 +47,11 @@ const TIMELINE = [
 ];
 
 const THEMES = [
-  { label: 'Meio ambiente, resíduos & agroecologia', detail: '6 de 9 · 67%', pct: 67 },
-  { label: 'Educação, alimentação & trabalho rural', detail: '4 de 5 · 80%', pct: 80 },
-  { label: 'Transparência & participação social', detail: '2 de 5 · 40%', pct: 40 },
-  { label: 'Saúde, direitos & consumidor', detail: '2 de 5 · 40%', pct: 40 },
-  { label: 'Cultura, artesanato & homenagens', detail: '6 de 7 · 86%', pct: 86 },
+  { label: 'Meio ambiente, resíduos e agroecologia', detail: '6 de 9 · 67%', pct: 67 },
+  { label: 'Educação, alimentação e trabalho rural', detail: '4 de 5 · 80%', pct: 80 },
+  { label: 'Transparência e participação social', detail: '2 de 5 · 40%', pct: 40 },
+  { label: 'Saúde, direitos e consumidor', detail: '2 de 5 · 40%', pct: 40 },
+  { label: 'Cultura e artesanato', detail: '6 de 7 · 86%', pct: 86 },
 ];
 
 const LAWS: Array<{ num: string; text: string; note?: string }> = [
@@ -431,10 +431,10 @@ function RegisterForm() {
         <label className={labelClass}>E-mail</label>
         <input name="email" type="email" placeholder="voce@exemplo.com" className={inputClass} />
       </div>
-      <div className="flex flex-col gap-1.5">
+      {/* <div className="flex flex-col gap-1.5">
         <label className={labelClass}>Data de nascimento</label>
         <input name="birth" type="date" className={inputClass} />
-      </div>
+      </div> */}
       <div className="flex flex-col gap-1.5 sm:col-span-2">
         <label className={labelClass}>Cidade / Região Administrativa</label>
         <select name="city" defaultValue="" className={`${inputClass} cursor-pointer`}>
@@ -452,7 +452,7 @@ function RegisterForm() {
           disabled={sending}
           className="bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-7 py-3.5 rounded border-none cursor-pointer font-sans hover:bg-[#C9962F] disabled:opacity-60 transition-colors"
         >
-          {sending ? 'ENVIANDO…' : 'QUERO RECEBER'}
+          {sending ? 'ENVIANDO…' : 'QUERO PARTICIPAR'}
         </button>
         {error && <span className="text-[13px] text-[#A3542F]">{error}</span>}
       </div>
@@ -550,9 +550,9 @@ export default function LandingDossieJoeValle() {
       <main className="lg:ml-[264px]">
         {/* Cadastro — foto à esquerda, formulário à direita */}
         <section id="cadastro" className="px-5 sm:px-10 lg:px-[72px] pt-14 lg:pt-[72px] pb-16 max-w-[1120px]">
-          <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
+          {/* <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
             DOSSIÊ ELEITORAL — CICLO 2026
-          </div>
+          </div> */}
           {/* <h1
             className="font-serif text-4xl sm:text-5xl lg:text-[52px] leading-[1.12] font-bold text-[#2B2118] mt-5 mb-9 max-w-[640px]"
             style={{ textWrap: 'pretty' }}
@@ -578,12 +578,11 @@ export default function LandingDossieJoeValle() {
             {/* Formulário de cadastro — sempre visível; fixo na rolagem no desktop */}
             <div className="lg:sticky lg:top-8 bg-[#ECE3D2] border border-[#E0D6C4] rounded-lg px-6 py-7 sm:px-8 sm:py-8">
               <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
-                CADASTRO — LANDING PAGE DOSSIÊ
+                CADASTRO
               </div>
-              <h2 className="font-serif text-2xl font-bold mt-3 mb-2">Receba o dossiê completo</h2>
+              <h2 className="font-serif text-2xl font-bold mt-3 mb-2">Faça parte da nossa rede. Vamos construir nosso futuro juntos!</h2>
               <p className="text-sm text-[#6E6257] m-0 mb-6 leading-[1.7]">
-                Deixe seus dados e receba o histórico completo, com número de lei e link para a
-                fonte oficial. Sem spam.
+              Convido você a fazer parte da nossa rede e do nosso projeto coletivo. Aqui, cada ideia conta, cada voz é importante. Juntos, podemos construir um Distrito Federal mais humano, sustentável e cheio de oportunidades.
               </p>
               <RegisterForm />
               <p className="text-[11px] text-[#A0937F] mt-[18px] mb-0">
