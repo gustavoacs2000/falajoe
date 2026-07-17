@@ -12,10 +12,10 @@ const WELCOME: ChatMessage = {
 };
 
 const SECTIONS = [
+  { id: 'cadastro', label: 'Cadastro' },
   { id: 'trajetoria', label: 'Trajetória' },
   { id: 'painel', label: 'Painel legislativo' },
   { id: 'marcos', label: 'Marcos em lei' },
-  { id: 'contato', label: 'Contato' },
 ];
 
 const TIMELINE = [
@@ -74,6 +74,47 @@ const STATS = [
   { value: '1', label: 'presidência da Casa' },
   { value: '~20', label: 'leis sancionadas' },
   { value: '65%', label: 'taxa de aprovação' },
+];
+
+// Regiões Administrativas do DF + opções para quem mora fora
+const DF_CITIES = [
+  'Água Quente',
+  'Águas Claras',
+  'Arapoanga',
+  'Arniqueira',
+  'Brazlândia',
+  'Candangolândia',
+  'Ceilândia',
+  'Cruzeiro',
+  'Fercal',
+  'Gama',
+  'Guará',
+  'Itapoã',
+  'Jardim Botânico',
+  'Lago Norte',
+  'Lago Sul',
+  'Núcleo Bandeirante',
+  'Paranoá',
+  'Park Way',
+  'Planaltina',
+  'Plano Piloto (Brasília)',
+  'Recanto das Emas',
+  'Riacho Fundo',
+  'Riacho Fundo II',
+  'Samambaia',
+  'Santa Maria',
+  'São Sebastião',
+  'SCIA/Estrutural',
+  'SIA',
+  'Sobradinho',
+  'Sobradinho II',
+  'Sol Nascente/Pôr do Sol',
+  'Sudoeste/Octogonal',
+  'Taguatinga',
+  'Varjão',
+  'Vicente Pires',
+  'Entorno do DF (GO)',
+  'Outra',
 ];
 
 function NavLinks({ active, onNavigate }: { active: string; onNavigate?: () => void }) {
@@ -396,7 +437,14 @@ function RegisterForm() {
       </div>
       <div className="flex flex-col gap-1.5 sm:col-span-2">
         <label className={labelClass}>Cidade / Região Administrativa</label>
-        <input name="city" placeholder="Ex.: Planaltina" className={inputClass} />
+        <select name="city" defaultValue="" className={`${inputClass} cursor-pointer`}>
+          <option value="">Selecione sua cidade…</option>
+          {DF_CITIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="sm:col-span-2 flex items-center gap-4 flex-wrap">
         <button
@@ -413,7 +461,7 @@ function RegisterForm() {
 }
 
 export default function LandingDossieJoeValle() {
-  const [active, setActive] = useState('trajetoria');
+  const [active, setActive] = useState('cadastro');
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -438,7 +486,7 @@ export default function LandingDossieJoeValle() {
           <div className="font-serif text-lg font-bold tracking-[.5px] text-[#F3ECDD]">
             JOE VALLE
           </div>
-          <div className="font-mono text-[9px] tracking-[2.5px] text-[#B9862C]">DOSSIÊ 2026</div>
+          <div className="font-mono text-[9px] tracking-[2.5px] text-[#B9862C]">Deputado Distrital</div>
         </div>
         <button
           onClick={() => setMenuOpen((v) => !v)}
@@ -451,7 +499,7 @@ export default function LandingDossieJoeValle() {
           <div className="absolute top-full left-0 right-0 bg-[#211711] px-5 pb-5 pt-1 border-t border-[rgba(239,231,216,.14)]">
             <NavLinks active={active} onNavigate={() => setMenuOpen(false)} />
             <a
-              href="#contato"
+              href="#cadastro"
               onClick={() => setMenuOpen(false)}
               className="mt-4 block text-center bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-4 py-3 rounded"
             >
@@ -468,7 +516,7 @@ export default function LandingDossieJoeValle() {
             JOE VALLE
           </div>
           <div className="font-mono text-[11px] tracking-[2.5px] text-[#B9862C] mt-1">
-            DOSSIÊ 2026
+            Deputado Distrital
           </div>
         </div>
         <div className="h-px bg-[rgba(239,231,216,.14)] my-[26px]" />
@@ -488,7 +536,7 @@ export default function LandingDossieJoeValle() {
           </div>
         </div>
         <a
-          href="#contato"
+          href="#cadastro"
           className="mt-[26px] block text-center bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-4 py-[13px] rounded hover:bg-[#C9962F] transition-colors"
         >
           QUERO O DOSSIÊ COMPLETO
@@ -500,53 +548,85 @@ export default function LandingDossieJoeValle() {
       </aside>
 
       <main className="lg:ml-[264px]">
-        {/* Trajetória */}
-        <section id="trajetoria" className="px-5 sm:px-10 lg:px-[72px] pt-14 lg:pt-[88px] pb-16 max-w-[960px]">
+        {/* Cadastro — foto à esquerda, formulário à direita */}
+        <section id="cadastro" className="px-5 sm:px-10 lg:px-[72px] pt-14 lg:pt-[72px] pb-16 max-w-[1120px]">
           <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
             DOSSIÊ ELEITORAL — CICLO 2026
           </div>
           <h1
-            className="font-serif text-4xl sm:text-5xl lg:text-[52px] leading-[1.12] font-bold text-[#2B2118] mt-5 mb-[22px] max-w-[640px]"
+            className="font-serif text-4xl sm:text-5xl lg:text-[52px] leading-[1.12] font-bold text-[#2B2118] mt-5 mb-9 max-w-[640px]"
             style={{ textWrap: 'pretty' }}
           >
             As propostas aqui já foram testadas — em lei.
           </h1>
-          <p className="text-base leading-[1.7] text-[#6E6257] max-w-[560px] m-0">
+
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_400px] lg:grid-cols-[minmax(0,1fr)_460px] gap-x-10 lg:gap-x-14 gap-y-8 items-start">
+            {/* Arte da campanha — reduzida e centralizada no mobile, coluna esquerda no desktop */}
+            <div>
+              <Image
+                src="/time-do-joe.jpg"
+                alt="Faça parte do Time do Joe — arte da campanha com apoiadores no cerrado"
+                width={1080}
+                height={1350}
+                preload
+                sizes="(max-width: 768px) 240px, 460px"
+                className="w-full max-w-[240px] md:max-w-[460px] h-auto mx-auto md:mx-0 rounded-lg border border-[#E0D6C4]"
+                style={{ boxShadow: '0 14px 34px rgba(33,23,17,.18)' }}
+              />
+            </div>
+
+            {/* Formulário de cadastro — sempre visível; fixo na rolagem no desktop */}
+            <div className="lg:sticky lg:top-8 bg-[#ECE3D2] border border-[#E0D6C4] rounded-lg px-6 py-7 sm:px-8 sm:py-8">
+              <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
+                CADASTRO — LANDING PAGE DOSSIÊ
+              </div>
+              <h2 className="font-serif text-2xl font-bold mt-3 mb-2">Receba o dossiê completo</h2>
+              <p className="text-sm text-[#6E6257] m-0 mb-6 leading-[1.7]">
+                Deixe seus dados e receba o histórico completo, com número de lei e link para a
+                fonte oficial. Sem spam.
+              </p>
+              <RegisterForm />
+              <p className="text-[11px] text-[#A0937F] mt-[18px] mb-0">
+                Seus dados são usados exclusivamente pela campanha, conforme a LGPD.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Trajetória */}
+        <section id="trajetoria" className="px-5 sm:px-10 lg:px-[72px] py-16 max-w-[960px]">
+          <h2 className="font-serif text-2xl font-bold m-0 mb-1.5">Trajetória pública</h2>
+          <p className="text-[13px] text-[#8B7F70] m-0 mb-5">
+            Do governo federal à presidência da Câmara Legislativa do DF.
+          </p>
+          <p className="text-[15px] leading-[1.7] text-[#6E6257] m-0 max-w-[560px]">
             Dois mandatos na Câmara Legislativa, uma presidência da Casa (2017–2018) e cerca de 20
             políticas públicas sancionadas. Antes de pedir o voto de novo, o histórico está aqui —
             com número de lei e tudo.
           </p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-7 mt-11 max-w-[820px]">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-7 mt-9 mb-12 max-w-[820px]">
             {STATS.map((s) => (
               <div key={s.label} className="border-l-[3px] border-[#B9862C] pl-4">
-                <div className="font-serif text-[34px] font-bold">{s.value}</div>
+                <div className="font-serif text-[30px] font-bold">{s.value}</div>
                 <div className="text-xs text-[#6E6257] mt-0.5">{s.label}</div>
               </div>
             ))}
           </div>
-
-          <div className="mt-16">
-            <h2 className="font-serif text-2xl font-bold m-0 mb-1.5">Trajetória pública</h2>
-            <p className="text-[13px] text-[#8B7F70] m-0 mb-7">
-              Do governo federal à presidência da Câmara Legislativa do DF.
-            </p>
-            <div className="flex flex-col max-w-[720px]">
-              {TIMELINE.map((t, i) => (
-                <div
-                  key={t.period}
-                  className={`grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-2 sm:gap-6 py-[18px] border-t border-[#E0D6C4] ${
-                    i === TIMELINE.length - 1 ? 'border-b' : ''
-                  }`}
-                >
-                  <div className="font-mono text-[13px] text-[#8F6516]">{t.period}</div>
-                  <div>
-                    <strong className="text-[15px]">{t.title}</strong>
-                    <div className="text-[13px] text-[#6E6257] mt-1 leading-[1.6]">{t.desc}</div>
-                  </div>
+          <div className="flex flex-col max-w-[720px]">
+            {TIMELINE.map((t, i) => (
+              <div
+                key={t.period}
+                className={`grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-2 sm:gap-6 py-[18px] border-t border-[#E0D6C4] ${
+                  i === TIMELINE.length - 1 ? 'border-b' : ''
+                }`}
+              >
+                <div className="font-mono text-[13px] text-[#8F6516]">{t.period}</div>
+                <div>
+                  <strong className="text-[15px]">{t.title}</strong>
+                  <div className="text-[13px] text-[#6E6257] mt-1 leading-[1.6]">{t.desc}</div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -612,31 +692,11 @@ export default function LandingDossieJoeValle() {
               </div>
             </div>
             <a
-              href="#contato"
+              href="#cadastro"
               className="bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-6 py-3.5 rounded whitespace-nowrap hover:bg-[#C9962F] transition-colors"
             >
               Receber o dossiê
             </a>
-          </div>
-        </section>
-
-        {/* Contato */}
-        <section id="contato" className="bg-[#ECE3D2] px-5 sm:px-10 lg:px-[72px] py-[72px] border-t border-[#E0D6C4]">
-          <div className="max-w-[760px]">
-            <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
-              CADASTRO — LANDING PAGE DOSSIÊ
-            </div>
-            <h2 className="font-serif text-3xl font-bold mt-3.5 mb-2">
-              Receba o dossiê completo
-            </h2>
-            <p className="text-sm text-[#6E6257] m-0 mb-[30px] max-w-[520px] leading-[1.7]">
-              Deixe seus dados e receba o histórico completo, com número de lei e link para a fonte
-              oficial. Sem spam.
-            </p>
-            <RegisterForm />
-            <p className="text-[11px] text-[#A0937F] mt-[22px]">
-              Seus dados são usados exclusivamente pela campanha, conforme a LGPD.
-            </p>
           </div>
         </section>
 
