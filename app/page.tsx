@@ -562,7 +562,7 @@ export default function LandingDossieJoeValle() {
 
           <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_400px] lg:grid-cols-[minmax(0,1fr)_460px] gap-x-10 lg:gap-x-14 gap-y-8 items-start">
             {/* Arte da campanha — reduzida e centralizada no mobile, coluna esquerda no desktop */}
-            <div className="order-1 md:col-start-1 md:row-start-1">
+            <div>
               <Image
                 src="/time-do-joe.jpg"
                 alt="Faça parte do Time do Joe — arte da campanha com apoiadores no cerrado"
@@ -576,7 +576,7 @@ export default function LandingDossieJoeValle() {
             </div>
 
             {/* Formulário de cadastro — sempre visível; fixo na rolagem no desktop */}
-            <div className="order-2 md:col-start-2 md:row-start-1 md:row-span-2 lg:sticky lg:top-8 bg-[#ECE3D2] border border-[#E0D6C4] rounded-lg px-6 py-7 sm:px-8 sm:py-8">
+            <div className="lg:sticky lg:top-8 bg-[#ECE3D2] border border-[#E0D6C4] rounded-lg px-6 py-7 sm:px-8 sm:py-8">
               <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
                 CADASTRO — LANDING PAGE DOSSIÊ
               </div>
@@ -590,32 +590,28 @@ export default function LandingDossieJoeValle() {
                 Seus dados são usados exclusivamente pela campanha, conforme a LGPD.
               </p>
             </div>
-
-            {/* Apresentação + estatísticas */}
-            <div className="order-3 md:col-start-1 md:row-start-2">
-              <p className="text-[15px] leading-[1.7] text-[#6E6257] m-0 max-w-[460px]">
-                Dois mandatos na Câmara Legislativa, uma presidência da Casa (2017–2018) e cerca de
-                20 políticas públicas sancionadas. Antes de pedir o voto de novo, o histórico está
-                aqui — com número de lei e tudo.
-              </p>
-              <div className="grid grid-cols-2 gap-6 mt-8 max-w-[460px]">
-                {STATS.map((s) => (
-                  <div key={s.label} className="border-l-[3px] border-[#B9862C] pl-4">
-                    <div className="font-serif text-[30px] font-bold">{s.value}</div>
-                    <div className="text-xs text-[#6E6257] mt-0.5">{s.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </section>
 
         {/* Trajetória */}
         <section id="trajetoria" className="px-5 sm:px-10 lg:px-[72px] py-16 max-w-[960px]">
           <h2 className="font-serif text-2xl font-bold m-0 mb-1.5">Trajetória pública</h2>
-          <p className="text-[13px] text-[#8B7F70] m-0 mb-7">
+          <p className="text-[13px] text-[#8B7F70] m-0 mb-5">
             Do governo federal à presidência da Câmara Legislativa do DF.
           </p>
+          <p className="text-[15px] leading-[1.7] text-[#6E6257] m-0 max-w-[560px]">
+            Dois mandatos na Câmara Legislativa, uma presidência da Casa (2017–2018) e cerca de 20
+            políticas públicas sancionadas. Antes de pedir o voto de novo, o histórico está aqui —
+            com número de lei e tudo.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-7 mt-9 mb-12 max-w-[820px]">
+            {STATS.map((s) => (
+              <div key={s.label} className="border-l-[3px] border-[#B9862C] pl-4">
+                <div className="font-serif text-[30px] font-bold">{s.value}</div>
+                <div className="text-xs text-[#6E6257] mt-0.5">{s.label}</div>
+              </div>
+            ))}
+          </div>
           <div className="flex flex-col max-w-[720px]">
             {TIMELINE.map((t, i) => (
               <div
