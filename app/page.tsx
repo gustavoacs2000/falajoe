@@ -401,7 +401,7 @@ function RegisterForm() {
       <div className="bg-[#241A12] rounded-lg px-8 py-[30px] max-w-[560px]">
         <div className="font-serif text-xl font-bold text-[#F3ECDD]">Cadastro confirmado ✓</div>
         <p className="text-sm text-[#BDB2A2] mt-2.5 leading-relaxed">
-          Obrigado! Em breve você recebe o dossiê completo no seu WhatsApp.
+          Obrigado! 
         </p>
       </div>
     );
@@ -539,7 +539,7 @@ export default function LandingDossieJoeValle() {
           href="#cadastro"
           className="mt-[26px] block text-center bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-4 py-[13px] rounded hover:bg-[#C9962F] transition-colors"
         >
-          QUERO O DOSSIÊ COMPLETO
+          FACA PARTE DA NOSSA REDE
         </a>
         <div className="mt-auto flex items-baseline justify-between">
           <span className="font-serif text-[30px] font-bold text-[#F3ECDD]">12</span>
@@ -551,7 +551,7 @@ export default function LandingDossieJoeValle() {
         {/* Cadastro — foto à esquerda, formulário à direita */}
         <section id="cadastro" className="px-5 sm:px-10 lg:px-[72px] pt-14 lg:pt-[72px] pb-16 max-w-[1120px]">
           {/* <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
-            DOSSIÊ ELEITORAL — CICLO 2026
+            DEPUTADO DISTRITAL — CICLO 2026
           </div> */}
           {/* <h1
             className="font-serif text-4xl sm:text-5xl lg:text-[52px] leading-[1.12] font-bold text-[#2B2118] mt-5 mb-9 max-w-[640px]"
@@ -681,7 +681,7 @@ export default function LandingDossieJoeValle() {
             ))}
           </div>
 
-          <div className="mt-12 bg-[#241A12] rounded-lg px-6 sm:px-[38px] py-[34px] flex items-center justify-between gap-7 max-w-[760px] flex-wrap">
+          {/* <div className="mt-12 bg-[#241A12] rounded-lg px-6 sm:px-[38px] py-[34px] flex items-center justify-between gap-7 max-w-[760px] flex-wrap">
             <div>
               <div className="font-serif text-[21px] font-bold text-[#F3ECDD]">
                 Quer o histórico completo, com fontes?
@@ -696,12 +696,12 @@ export default function LandingDossieJoeValle() {
             >
               Receber o dossiê
             </a>
-          </div>
+          </div> */}
         </section>
 
         <footer className="bg-[#211711] text-[#9A8C77] px-5 sm:px-10 lg:px-[72px] py-[26px] flex justify-between items-center text-xs flex-wrap gap-3">
           <span>Joe Valle · PDT 12 · Distrito Federal</span>
-          <span className="font-mono text-[11px] tracking-[1.5px]">DOSSIÊ ELEITORAL 2026</span>
+          <span className="font-mono text-[11px] tracking-[1.5px]">DEPUTADO DISTRITAL 2026</span>
         </footer>
       </main>
 
