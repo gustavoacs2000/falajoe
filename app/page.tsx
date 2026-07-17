@@ -486,7 +486,7 @@ export default function LandingDossieJoeValle() {
           <div className="font-serif text-lg font-bold tracking-[.5px] text-[#F3ECDD]">
             JOE VALLE
           </div>
-          <div className="font-mono text-[9px] tracking-[2.5px] text-[#B9862C]">DOSSIÊ 2026</div>
+          <div className="font-mono text-[9px] tracking-[2.5px] text-[#B9862C]">Deputado Distrital</div>
         </div>
         <button
           onClick={() => setMenuOpen((v) => !v)}
@@ -516,7 +516,7 @@ export default function LandingDossieJoeValle() {
             JOE VALLE
           </div>
           <div className="font-mono text-[11px] tracking-[2.5px] text-[#B9862C] mt-1">
-            DOSSIÊ 2026
+            Deputado Distrital
           </div>
         </div>
         <div className="h-px bg-[rgba(239,231,216,.14)] my-[26px]" />
