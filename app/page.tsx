@@ -12,10 +12,10 @@ const WELCOME: ChatMessage = {
 };
 
 const SECTIONS = [
-  { id: 'cadastro', label: 'Cadastro' },
-  { id: 'trajetoria', label: 'Trajetória' },
-  { id: 'painel', label: 'Painel legislativo' },
-  { id: 'marcos', label: 'Marcos em lei' },
+  // { id: 'cadastro', label: 'Cadastro' },
+  // { id: 'trajetoria', label: 'Trajetória' },
+  // { id: 'painel', label: 'Painel legislativo' },
+  // { id: 'marcos', label: 'Marcos em lei' },
 ];
 
 const TIMELINE = [
@@ -147,6 +147,12 @@ function ChatWidget() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener('open-chatbot', handler);
+    return () => window.removeEventListener('open-chatbot', handler);
+  }, []);
 
   useEffect(() => {
     const log = logRef.current;
@@ -401,7 +407,7 @@ function RegisterForm() {
       <div className="bg-[#241A12] rounded-lg px-8 py-[30px] max-w-[560px]">
         <div className="font-serif text-xl font-bold text-[#F3ECDD]">Cadastro confirmado ✓</div>
         <p className="text-sm text-[#BDB2A2] mt-2.5 leading-relaxed">
-          Obrigado! 
+          Obrigado!
         </p>
       </div>
     );
@@ -503,7 +509,7 @@ export default function LandingDossieJoeValle() {
               onClick={() => setMenuOpen(false)}
               className="mt-4 block text-center bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-4 py-3 rounded"
             >
-              QUERO O DOSSIÊ COMPLETO
+              FAÇA PARTE DA NOSSA REDE
             </a>
           </div>
         )}
@@ -521,15 +527,15 @@ export default function LandingDossieJoeValle() {
         </div>
         <div className="h-px bg-[rgba(239,231,216,.14)] my-[26px]" />
         <NavLinks active={active} />
-        <div className="flex items-center gap-3 mt-[30px]">
+        <div className="flex flex-col items-center gap-2.5 mt-[30px]">
           <Image
             src="/joe-valle.jpg"
             alt="Joe Valle"
-            width={44}
-            height={44}
-            className="w-11 h-11 rounded-full object-cover border border-[rgba(185,134,44,.5)]"
+            width={80}
+            height={80}
+            className="w-20 h-20 rounded-full object-cover border-2 border-[rgba(185,134,44,.5)]"
           />
-          <div className="text-xs leading-normal text-[#BDB2A2]">
+          <div className="text-xs leading-normal text-[#BDB2A2] text-center">
             Engenheiro florestal
             <br />
             Fazenda Malunga
@@ -539,8 +545,17 @@ export default function LandingDossieJoeValle() {
           href="#cadastro"
           className="mt-[26px] block text-center bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-4 py-[13px] rounded hover:bg-[#C9962F] transition-colors"
         >
-          FACA PARTE DA NOSSA REDE
+          FAÇA PARTE DA NOSSA REDE
         </a>
+        <button
+          onClick={() => window.dispatchEvent(new Event('open-chatbot'))}
+          className="mt-3 w-full flex items-center justify-center gap-2 bg-transparent text-[#B9862C] font-bold text-[13px] tracking-[.5px] px-4 py-[13px] rounded border border-[#B9862C] hover:bg-[rgba(185,134,44,.12)] transition-colors cursor-pointer"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </svg>
+          FALE COM O JOEBOT
+        </button>
         <div className="mt-auto flex items-baseline justify-between">
           <span className="font-serif text-[30px] font-bold text-[#F3ECDD]">12</span>
           <span className="font-mono text-[10px] tracking-[2px] text-[#7E7263]">PDT</span>
@@ -582,7 +597,7 @@ export default function LandingDossieJoeValle() {
               </div>
               <h2 className="font-serif text-2xl font-bold mt-3 mb-2">Faça parte da nossa rede. Vamos construir nosso futuro juntos!</h2>
               <p className="text-sm text-[#6E6257] m-0 mb-6 leading-[1.7]">
-              Convido você a fazer parte da nossa rede e do nosso projeto coletivo. Aqui, cada ideia conta, cada voz é importante. Juntos, podemos construir um Distrito Federal mais humano, sustentável e cheio de oportunidades.
+                Convido você a fazer parte da nossa rede e do nosso projeto coletivo. Aqui, cada ideia conta, cada voz é importante. Juntos, podemos construir um Distrito Federal mais humano, sustentável e cheio de oportunidades.
               </p>
               <RegisterForm />
               <p className="text-[11px] text-[#A0937F] mt-[18px] mb-0">
@@ -592,7 +607,7 @@ export default function LandingDossieJoeValle() {
           </div>
         </section>
 
-        {/* Trajetória */}
+        {/* Trajetória
         <section id="trajetoria" className="px-5 sm:px-10 lg:px-[72px] py-16 max-w-[960px]">
           <h2 className="font-serif text-2xl font-bold m-0 mb-1.5">Trajetória pública</h2>
           <p className="text-[13px] text-[#8B7F70] m-0 mb-5">
@@ -627,9 +642,9 @@ export default function LandingDossieJoeValle() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
-        {/* Painel legislativo */}
+        {/* Painel legislativo
         <section id="painel" className="px-5 sm:px-10 lg:px-[72px] py-16 max-w-[960px]">
           <h2 className="font-serif text-2xl font-bold m-0 mb-1.5">Painel por tema</h2>
           <p className="text-[13px] text-[#8B7F70] m-0 mb-[30px]">
@@ -656,9 +671,9 @@ export default function LandingDossieJoeValle() {
             Fonte: catálogo consolidado a partir de fontes primárias oficiais — páginas de
             proposição da CLDF, SINJ-DF, Diário da Câmara Legislativa e Agência Brasília.
           </p>
-        </section>
+        </section> */}
 
-        {/* Marcos em lei */}
+        {/* Marcos em lei
         <section id="marcos" className="px-5 sm:px-10 lg:px-[72px] pt-16 pb-[72px] max-w-[960px]">
           <h2 className="font-serif text-2xl font-bold m-0 mb-1.5">Marcos em lei</h2>
           <p className="text-[13px] text-[#8B7F70] m-0 mb-[26px]">
@@ -696,8 +711,8 @@ export default function LandingDossieJoeValle() {
             >
               Receber o dossiê
             </a>
-          </div> */}
-        </section>
+          </div> 
+        </section> */}
 
         <footer className="bg-[#211711] text-[#9A8C77] px-5 sm:px-10 lg:px-[72px] py-[26px] flex justify-between items-center text-xs flex-wrap gap-3">
           <span>Joe Valle · PDT 12 · Distrito Federal</span>
