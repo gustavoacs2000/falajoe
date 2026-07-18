@@ -1,9 +1,7 @@
 export const maxDuration = 15;
 
 // Proxy para o cadastro do EngajaBR — mantém a API key no servidor.
-// Variáveis de ambiente:
-//   ENGAJABR_API_KEY        (obrigatória)
-//   ENGAJABR_CITY_FIELD_ID  (opcional — id do campo customizado de cidade)
+// Variável de ambiente obrigatória: ENGAJABR_API_KEY
 export async function POST(req: Request) {
   const apiKey = process.env.ENGAJABR_API_KEY;
   if (!apiKey) {
@@ -29,11 +27,7 @@ export async function POST(req: Request) {
   };
   if (email) payload.email = email;
   if (birth) payload.birth = birth;
-
-  const cityFieldId = process.env.ENGAJABR_CITY_FIELD_ID;
-  if (city && cityFieldId) {
-    payload.custom_fields = { [cityFieldId]: city };
-  }
+  if (city) payload.city = city;
 
   try {
     const res = await fetch('https://engajabr.com.br/api/landing-page/register', {
