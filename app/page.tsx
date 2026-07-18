@@ -11,12 +11,7 @@ const WELCOME: ChatMessage = {
     'Olá! Sou o JoeBot, assistente virtual de campanha do Joe Valle. O que mais te preocupa no nosso cenário distrital atual para que eu possa te mostrar como podemos ajudar?',
 };
 
-const SECTIONS = [
-  // { id: 'cadastro', label: 'Cadastro' },
-  // { id: 'trajetoria', label: 'Trajetória' },
-  // { id: 'painel', label: 'Painel legislativo' },
-  // { id: 'marcos', label: 'Marcos em lei' },
-];
+
 
 const TIMELINE = [
   {
@@ -117,29 +112,6 @@ const DF_CITIES = [
   'Outra',
 ];
 
-function NavLinks({ active, onNavigate }: { active: string; onNavigate?: () => void }) {
-  return (
-    <nav className="flex flex-col gap-1.5">
-      {SECTIONS.map((s, i) => (
-        <a
-          key={s.id}
-          href={`#${s.id}`}
-          onClick={onNavigate}
-          className="flex gap-3 items-baseline px-3 py-[9px] rounded text-sm font-medium transition-colors"
-          style={{
-            color: active === s.id ? '#F3ECDD' : '#BDB2A2',
-            background: active === s.id ? 'rgba(185,134,44,.14)' : 'transparent',
-          }}
-        >
-          <span className="font-mono text-[10px] text-[#B9862C]">
-            {String(i + 1).padStart(2, '0')}
-          </span>
-          {s.label}
-        </a>
-      ))}
-    </nav>
-  );
-}
 
 function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -467,22 +439,9 @@ function RegisterForm() {
 }
 
 export default function LandingDossieJoeValle() {
-  const [active, setActive] = useState('cadastro');
   const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => {
-      let cur = SECTIONS[0].id;
-      for (const { id } of SECTIONS) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= 140) cur = id;
-      }
-      setActive(cur);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+
 
   return (
     <div className="font-sans text-[#2B2118] w-full">
@@ -503,7 +462,7 @@ export default function LandingDossieJoeValle() {
         </button>
         {menuOpen && (
           <div className="absolute top-full left-0 right-0 bg-[#211711] px-5 pb-5 pt-1 border-t border-[rgba(239,231,216,.14)]">
-            <NavLinks active={active} onNavigate={() => setMenuOpen(false)} />
+
             <a
               href="#cadastro"
               onClick={() => setMenuOpen(false)}
@@ -526,7 +485,6 @@ export default function LandingDossieJoeValle() {
           </div>
         </div>
         <div className="h-px bg-[rgba(239,231,216,.14)] my-[26px]" />
-        <NavLinks active={active} />
         <div className="flex flex-col items-center gap-2.5 mt-[30px]">
           <Image
             src="/joe-valle.jpg"
