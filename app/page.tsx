@@ -21,7 +21,7 @@ const TIMELINE = [
   },
   {
     period: '2010–2014',
-    title: 'Eleito deputado distrital — 1º mandato na CLDF',
+    title: 'Eleito Pré-candidato a Deputado Distrital — 1º mandato na CLDF',
     desc: 'Leis do clima, agricultura urbana, dados educacionais, alimentação saudável e resíduos sólidos.',
   },
   {
@@ -361,6 +361,7 @@ function RegisterForm() {
       const result = await res.json().catch(() => ({}));
       if (res.ok && result.success) {
         setDone(true);
+        f.reset();
       } else {
         const errs = result.errors
           ? Object.values(result.errors).flat().join(' ')
@@ -374,67 +375,88 @@ function RegisterForm() {
     }
   };
 
-  if (done) {
-    return (
-      <div className="bg-[#241A12] rounded-lg px-8 py-[30px] max-w-[560px]">
-        <div className="font-serif text-xl font-bold text-[#F3ECDD]">Cadastro confirmado ✓</div>
-        <p className="text-sm text-[#BDB2A2] mt-2.5 leading-relaxed">
-          Obrigado!
-        </p>
-      </div>
-    );
-  }
-
   const inputClass =
     'border border-[#CDC1AA] bg-[#FBF7EE] rounded px-3.5 py-3 text-sm font-sans text-[#2B2118]';
   const labelClass = 'text-xs font-semibold text-[#5A4F42]';
 
   return (
-    <form onSubmit={submit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[640px]">
-      <div className="flex flex-col gap-1.5">
-        <label className={labelClass}>Nome *</label>
-        <input name="name" required placeholder="Seu nome completo" className={inputClass} />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <label className={labelClass}>WhatsApp *</label>
-        <input
-          name="phone"
-          required
-          placeholder="(61) 99999-9999"
-          inputMode="tel"
-          className={inputClass}
-        />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <label className={labelClass}>E-mail</label>
-        <input name="email" type="email" placeholder="voce@exemplo.com" className={inputClass} />
-      </div>
-      {/* <div className="flex flex-col gap-1.5">
-        <label className={labelClass}>Data de nascimento</label>
-        <input name="birth" type="date" className={inputClass} />
-      </div> */}
-      <div className="flex flex-col gap-1.5 sm:col-span-2">
-        <label className={labelClass}>Cidade / Região Administrativa</label>
-        <select name="city" defaultValue="" className={`${inputClass} cursor-pointer`}>
-          <option value="">Selecione sua cidade…</option>
-          {DF_CITIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="sm:col-span-2 flex items-center gap-4 flex-wrap">
-        <button
-          type="submit"
-          disabled={sending}
-          className="bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-7 py-3.5 rounded border-none cursor-pointer font-sans hover:bg-[#C9962F] disabled:opacity-60 transition-colors"
-        >
-          {sending ? 'ENVIANDO…' : 'QUERO PARTICIPAR'}
-        </button>
-        {error && <span className="text-[13px] text-[#A3542F]">{error}</span>}
-      </div>
-    </form>
+    <>
+      {done && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+          <div 
+            className="bg-[#241A12] rounded-2xl px-8 py-10 max-w-[420px] w-full text-center relative border border-[rgba(185,134,44,.3)]"
+            style={{
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
+              animation: 'chatpop .3s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            <div className="w-16 h-16 bg-[#B9862C] rounded-full flex items-center justify-center mx-auto mb-6"
+                 style={{ boxShadow: '0 0 20px rgba(185,134,44,.4)' }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#211711" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-[#F3ECDD] mb-4">
+              Obrigado por se juntar ao time Joe Valle!
+            </h3>
+            <p className="text-[15px] text-[#BDB2A2] mb-8 leading-relaxed">
+              Seu cadastro foi realizado com sucesso. Juntos, vamos construir um futuro melhor para o Distrito Federal.
+            </p>
+            <button
+              onClick={() => setDone(false)}
+              className="bg-[#B9862C] text-[#211711] font-bold text-[14px] tracking-[.5px] px-8 py-3.5 rounded-lg w-full hover:bg-[#C9962F] transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+            >
+              FECHAR E CONTINUAR
+            </button>
+          </div>
+        </div>
+      )}
+      <form onSubmit={submit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[640px]">
+        <div className="flex flex-col gap-1.5">
+          <label className={labelClass}>Nome *</label>
+          <input name="name" required placeholder="Seu nome completo" className={inputClass} />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className={labelClass}>WhatsApp *</label>
+          <input
+            name="phone"
+            required
+            placeholder="(61) 99999-9999"
+            inputMode="tel"
+            className={inputClass}
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className={labelClass}>E-mail</label>
+          <input name="email" type="email" placeholder="voce@exemplo.com" className={inputClass} />
+        </div>
+        {/* <div className="flex flex-col gap-1.5">
+          <label className={labelClass}>Data de nascimento</label>
+          <input name="birth" type="date" className={inputClass} />
+        </div> */}
+        <div className="flex flex-col gap-1.5 sm:col-span-2">
+          <label className={labelClass}>Cidade / Região Administrativa</label>
+          <select name="city" defaultValue="" className={`${inputClass} cursor-pointer`}>
+            <option value="">Selecione sua cidade…</option>
+            {DF_CITIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="sm:col-span-2 flex items-center gap-4 flex-wrap">
+          <button
+            type="submit"
+            disabled={sending}
+            className="bg-[#B9862C] text-[#211711] font-bold text-[13px] tracking-[.5px] px-7 py-3.5 rounded border-none cursor-pointer font-sans hover:bg-[#C9962F] disabled:opacity-60 transition-colors"
+          >
+            {sending ? 'ENVIANDO…' : 'QUERO PARTICIPAR'}
+          </button>
+          {error && <span className="text-[13px] text-[#A3542F]">{error}</span>}
+        </div>
+      </form>
+    </>
   );
 }
 
@@ -451,7 +473,7 @@ export default function LandingDossieJoeValle() {
           <div className="font-serif text-lg font-bold tracking-[.5px] text-[#F3ECDD]">
             JOE VALLE
           </div>
-          <div className="font-mono text-[9px] tracking-[2.5px] text-[#B9862C]">Deputado Distrital</div>
+          <div className="font-mono text-[9px] tracking-[2.5px] text-[#B9862C]">Pré-candidato a Deputado Distrital</div>
         </div>
         <button
           onClick={() => setMenuOpen((v) => !v)}
@@ -481,7 +503,7 @@ export default function LandingDossieJoeValle() {
             JOE VALLE
           </div>
           <div className="font-mono text-[11px] tracking-[2.5px] text-[#B9862C] mt-1">
-            Deputado Distrital
+            Pré-candidato a Deputado Distrital
           </div>
         </div>
         <div className="h-px bg-[rgba(239,231,216,.14)] my-[26px]" />
@@ -524,7 +546,7 @@ export default function LandingDossieJoeValle() {
         {/* Cadastro — foto à esquerda, formulário à direita */}
         <section id="cadastro" className="px-5 sm:px-10 lg:px-[72px] pt-14 lg:pt-[72px] pb-16 max-w-[1120px]">
           {/* <div className="font-mono text-[11px] tracking-[3px] text-[#8F6516]">
-            DEPUTADO DISTRITAL — CICLO 2026
+            Pré-candidato a Deputado Distrital — CICLO 2026
           </div> */}
           {/* <h1
             className="font-serif text-4xl sm:text-5xl lg:text-[52px] leading-[1.12] font-bold text-[#2B2118] mt-5 mb-9 max-w-[640px]"
@@ -674,7 +696,7 @@ export default function LandingDossieJoeValle() {
 
         <footer className="bg-[#211711] text-[#9A8C77] px-5 sm:px-10 lg:px-[72px] py-[26px] flex justify-between items-center text-xs flex-wrap gap-3">
           <span>Joe Valle · PDT 12 · Distrito Federal</span>
-          <span className="font-mono text-[11px] tracking-[1.5px]">DEPUTADO DISTRITAL 2026</span>
+          <span className="font-mono text-[11px] tracking-[1.5px]">Pré-candidato a Deputado Distrital 2026</span>
         </footer>
       </main>
 
