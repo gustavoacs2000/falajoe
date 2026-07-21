@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { FormEvent, useEffect, useRef, useState } from 'react';
+import { CONSENT_VERSION, WHATSAPP_CONSENT_STATEMENT } from './lib/consent';
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string };
 
@@ -329,6 +330,25 @@ function RegisterForm() {
   const [done, setDone] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!termsOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setTermsOpen(false);
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [termsOpen]);
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -339,9 +359,15 @@ function RegisterForm() {
       setError('Informe um WhatsApp válido com DDD.');
       return;
     }
-    const payload: Record<string, string> = {
+    if (!consent) {
+      setError('Autorize o recebimento de mensagens para concluir o cadastro.');
+      return;
+    }
+    const payload: Record<string, string | boolean> = {
       name: String(data.get('name') || '').trim(),
       phone,
+      whatsappConsent: true,
+      consentVersion: CONSENT_VERSION,
     };
     const email = String(data.get('email') || '').trim();
     const birth = String(data.get('birth') || '');
@@ -361,6 +387,7 @@ function RegisterForm() {
       const result = await res.json().catch(() => ({}));
       if (res.ok && result.success) {
         setDone(true);
+        setConsent(false);
         f.reset();
       } else {
         const errs = result.errors
@@ -381,6 +408,125 @@ function RegisterForm() {
 
   return (
     <>
+      {termsOpen && (
+        <div
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/65 px-4 py-6 backdrop-blur-sm"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setTermsOpen(false);
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="privacy-title"
+            aria-describedby="privacy-summary"
+            className="relative max-h-full w-full max-w-[680px] overflow-y-auto rounded-2xl border border-[#D8CBB7] bg-[#FBF7EE] px-6 py-7 text-[#2B2118] shadow-2xl sm:px-9 sm:py-9"
+          >
+            <button
+              type="button"
+              onClick={() => setTermsOpen(false)}
+              autoFocus
+              aria-label="Fechar termos"
+              className="absolute right-4 top-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[#D8CBB7] bg-transparent text-xl text-[#6E6257] transition-colors hover:bg-[#ECE3D2]"
+            >
+              ×
+            </button>
+
+            <div className="pr-10">
+              <div className="font-mono text-[10px] tracking-[2px] text-[#8F6516]">
+                VERSÃO {CONSENT_VERSION}
+              </div>
+              <h3 id="privacy-title" className="mt-2 font-serif text-2xl font-bold">
+                Termos de consentimento e aviso de privacidade
+              </h3>
+            </div>
+
+            <p id="privacy-summary" className="mt-5 text-sm leading-6 text-[#5F5347]">
+              Este aviso explica como os dados enviados neste formulário serão usados pela equipe
+              de pré-campanha de Joe Valle para manter contato com você.
+            </p>
+
+            <div className="mt-6 space-y-5 text-sm leading-6 text-[#5F5347]">
+              <section>
+                <h4 className="font-bold text-[#2B2118]">1. Responsável e dados tratados</h4>
+                <p className="mt-1">
+                  A equipe de pré-campanha de Joe Valle é responsável pelo tratamento. Serão
+                  tratados nome, número de telefone e, quando informados, e-mail e cidade/região,
+                  além da data, origem e versão deste consentimento.
+                </p>
+              </section>
+
+              <section className="rounded-lg border border-[#D6B56F] bg-[#F5EBD2] px-4 py-3">
+                <h4 className="font-bold text-[#2B2118]">2. Dado pessoal sensível</h4>
+                <p className="mt-1">
+                  A adesão a uma rede de campanha pode revelar ou permitir inferir opinião
+                  política. Por isso, o uso desse dado fica limitado às finalidades descritas aqui
+                  e depende do seu consentimento específico e destacado.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-[#2B2118]">3. Finalidades</h4>
+                <p className="mt-1">
+                  Os dados poderão ser usados para enviar mensagens pelo WhatsApp sobre a campanha,
+                  propostas, eventos, pesquisas, mobilização e formas de participação, bem como para
+                  organizar e responder aos contatos da rede.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-[#2B2118]">4. Escolha e cancelamento</h4>
+                <p className="mt-1">
+                  O consentimento é opcional. Sem ele, o cadastro para receber essas comunicações não
+                  será concluído, mas o restante do site continuará disponível. Você pode revogar a
+                  autorização gratuitamente a qualquer momento respondendo <strong>SAIR</strong> a
+                  uma mensagem ou solicitando pelos canais oficiais da campanha.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-[#2B2118]">5. Compartilhamento, segurança e prazo</h4>
+                <p className="mt-1">
+                  Os dados não serão vendidos. Eles poderão ser tratados por fornecedores
+                  indispensáveis de cadastro, hospedagem e comunicação, como o EngajaBR, sob
+                  instruções da campanha, ou compartilhados quando houver obrigação legal. Serão
+                  mantidos enquanto o consentimento estiver ativo e, depois, apenas pelo período
+                  necessário ao cumprimento de obrigações legais, à prestação de contas e ao
+                  exercício regular de direitos, com medidas razoáveis de segurança.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-[#2B2118]">6. Seus direitos</h4>
+                <p className="mt-1">
+                  Você pode pedir confirmação e acesso aos dados, correção, informação sobre
+                  compartilhamentos, revogação do consentimento, bloqueio ou eliminação quando
+                  aplicável. O pedido pode ser feito respondendo a uma mensagem recebida ou pelos
+                  canais oficiais da campanha.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-[#2B2118]">7. Uso do WhatsApp</h4>
+                <p className="mt-1">
+                  O envio respeitará as escolhas registradas e os pedidos de descadastro. Este aceite
+                  não autoriza mensagens para finalidades diferentes nem afasta as regras do
+                  WhatsApp e a legislação aplicável.
+                </p>
+              </section>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setTermsOpen(false)}
+              className="mt-7 w-full cursor-pointer rounded-lg border-none bg-[#B9862C] px-6 py-3.5 text-sm font-bold text-[#211711] transition-colors hover:bg-[#C9962F]"
+            >
+              ENTENDI
+            </button>
+          </div>
+        </div>
+      )}
+
       {done && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
           <div 
@@ -445,6 +591,40 @@ function RegisterForm() {
             ))}
           </select>
         </div>
+        <div className="sm:col-span-2 rounded-lg border border-[#D8CBB7] bg-[#F8F2E7] px-4 py-4">
+          <div className="flex items-start gap-3">
+            <input
+              id="whatsapp-consent"
+              name="whatsappConsent"
+              type="checkbox"
+              required
+              checked={consent}
+              onChange={(event) => {
+                setConsent(event.target.checked);
+                if (event.target.checked) setError('');
+              }}
+              className="mt-0.5 h-[18px] w-[18px] shrink-0 cursor-pointer accent-[#B9862C]"
+            />
+            <div className="text-xs leading-[1.65] text-[#5A4F42]">
+              <label htmlFor="whatsapp-consent" className="cursor-pointer">
+                {WHATSAPP_CONSENT_STATEMENT}
+              </label>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setTermsOpen(true)}
+                  className="cursor-pointer border-none bg-transparent p-0 font-bold text-[#8F6516] underline decoration-[#B9862C]/60 underline-offset-2 hover:text-[#6F4D0C]"
+                >
+                  Consultar os Termos e o Aviso de Privacidade
+                </button>
+              </div>
+            </div>
+          </div>
+          <p className="mb-0 ml-[30px] mt-2 text-[11px] leading-4 text-[#8B7F70]">
+            Campo obrigatório. A caixa começa desmarcada e você pode retirar o consentimento quando
+            quiser.
+          </p>
+        </div>
         <div className="sm:col-span-2 flex items-center gap-4 flex-wrap">
           <button
             type="submit"
@@ -453,7 +633,11 @@ function RegisterForm() {
           >
             {sending ? 'ENVIANDO…' : 'QUERO PARTICIPAR'}
           </button>
-          {error && <span className="text-[13px] text-[#A3542F]">{error}</span>}
+          {error && (
+            <span role="alert" aria-live="polite" className="text-[13px] text-[#A3542F]">
+              {error}
+            </span>
+          )}
         </div>
       </form>
     </>
@@ -581,7 +765,8 @@ export default function LandingDossieJoeValle() {
               </p>
               <RegisterForm />
               <p className="text-[11px] text-[#A0937F] mt-[18px] mb-0">
-                Seus dados são usados exclusivamente pela campanha, conforme a LGPD.
+                Seus dados serão tratados apenas para as finalidades informadas no consentimento,
+                conforme a LGPD.
               </p>
             </div>
           </div>
