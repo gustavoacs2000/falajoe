@@ -1,18 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect, KeyboardEvent, ReactNode } from 'react';
+import { useState, useRef, useEffect, KeyboardEvent } from 'react';
 import './joebot.css';
 
 type Message = { role: 'user' | 'assistant'; content: string; at?: string };
-
-type Action = {
-  id: string;
-  label: string;
-  short: string;
-  icon: ReactNode;
-  kind: 'send' | 'focus' | 'prefill';
-  text?: string;
-};
 
 const INSTAGRAM_URL = 'https://www.instagram.com/joevalleoficial/';
 
@@ -63,28 +54,6 @@ const IconLock = () => (
   </svg>
 );
 
-const IconQuestion = () => (
-  <svg {...strokeProps}>
-    <circle cx="12" cy="12" r="8.5" />
-    <path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.5" />
-    <path d="M12 17.1h.01" />
-  </svg>
-);
-
-const IconBulb = () => (
-  <svg {...strokeProps}>
-    <path d="M9.2 16.5a6 6 0 1 1 5.6 0v1.6a1 1 0 0 1-1 1h-3.6a1 1 0 0 1-1-1v-1.6Z" />
-    <path d="M10.2 21.2h3.6" />
-  </svg>
-);
-
-const IconMegaphone = () => (
-  <svg {...strokeProps}>
-    <path d="M4 10.5v3a1.5 1.5 0 0 0 1.5 1.5H8l7 4.5V6L8 10.5H5.5A1.5 1.5 0 0 0 4 12Z" />
-    <path d="M18.2 9.4a4 4 0 0 1 0 5.2" />
-  </svg>
-);
-
 const IconInfo = () => (
   <svg {...strokeProps}>
     <circle cx="12" cy="12" r="8.5" />
@@ -96,13 +65,6 @@ const IconInfo = () => (
 const IconHeart = () => (
   <svg {...strokeProps}>
     <path d="M12 19.5c-4.5-2.8-7-5.6-7-8.6A3.9 3.9 0 0 1 12 8.3a3.9 3.9 0 0 1 7 2.6c0 3-2.5 5.8-7 8.6Z" />
-  </svg>
-);
-
-const IconArrow = () => (
-  <svg {...strokeProps} className="arrow">
-    <path d="M4.5 12h15" />
-    <path d="m13.5 6 6 6-6 6" />
   </svg>
 );
 
@@ -176,40 +138,6 @@ const PILLARS = [
   { icon: <IconLock />, label: 'Proteção de dados e privacidade' },
 ];
 
-const ACTIONS: Action[] = [
-  {
-    id: 'propostas',
-    label: 'Conhecer propostas',
-    short: 'Propostas',
-    icon: <IconMessage />,
-    kind: 'send',
-    text: 'Quero conhecer as principais propostas de Joe Valle.',
-  },
-  {
-    id: 'pergunta',
-    label: 'Fazer uma pergunta',
-    short: 'Perguntar',
-    icon: <IconQuestion />,
-    kind: 'focus',
-  },
-  {
-    id: 'sugestao',
-    label: 'Enviar sugestão',
-    short: 'Sugestões',
-    icon: <IconBulb />,
-    kind: 'prefill',
-    text: 'Gostaria de enviar uma sugestão para a campanha.',
-  },
-  {
-    id: 'acompanhar',
-    label: 'Acompanhar campanha',
-    short: 'Campanha',
-    icon: <IconMegaphone />,
-    kind: 'send',
-    text: 'Como posso acompanhar a campanha de Joe Valle?',
-  },
-];
-
 const TRUST = [
   { icon: <IconLock />, label: 'Privacidade protegida' },
   { icon: <IconShield />, label: 'Informações confiáveis' },
@@ -223,7 +151,6 @@ export default function JoeBotChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // O horário só é calculado depois da montagem para não divergir do HTML do servidor.
   useEffect(() => {
@@ -236,8 +163,8 @@ export default function JoeBotChat() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [messages, isLoading]);
 
-  const sendMessage = async (override?: string) => {
-    const text = (override ?? input).trim();
+  const sendMessage = async () => {
+    const text = input.trim();
     if (!text || isLoading) return;
 
     const userMsg: Message = { role: 'user', content: text, at: formatTime(new Date()) };
@@ -307,18 +234,6 @@ export default function JoeBotChat() {
     }
   };
 
-  const runAction = (action: Action) => {
-    if (isLoading) return;
-    if (action.kind === 'send' && action.text) {
-      sendMessage(action.text);
-      return;
-    }
-    if (action.kind === 'prefill' && action.text) {
-      setInput(action.text);
-    }
-    inputRef.current?.focus();
-  };
-
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -374,22 +289,6 @@ export default function JoeBotChat() {
                 </li>
               ))}
             </ul>
-
-            <div className="ctas">
-              {ACTIONS.map((action, index) => (
-                <button
-                  key={action.id}
-                  type="button"
-                  className={index === 0 ? 'cta primary' : 'cta'}
-                  disabled={isLoading}
-                  onClick={() => runAction(action)}
-                >
-                  {action.icon}
-                  <span className="label">{action.label}</span>
-                  <IconArrow />
-                </button>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -464,27 +363,12 @@ export default function JoeBotChat() {
               <div ref={bottomRef} />
             </div>
 
-            <div className="quick">
-              {ACTIONS.map((action) => (
-                <button
-                  key={action.id}
-                  type="button"
-                  disabled={isLoading}
-                  onClick={() => runAction(action)}
-                >
-                  {action.icon}
-                  <span>{action.short}</span>
-                </button>
-              ))}
-            </div>
-
             <div className="composer">
               <label className="sr-only" htmlFor="joebot-input">
                 Digite sua mensagem para o JoeBot
               </label>
               <input
                 id="joebot-input"
-                ref={inputRef}
                 type="text"
                 autoComplete="off"
                 value={input}
