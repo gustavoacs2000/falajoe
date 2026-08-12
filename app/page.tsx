@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useRef, useEffect, KeyboardEvent } from 'react';
-import './joebot.css';
+import './falajoe.css';
 
 type Message = { role: 'user' | 'assistant'; content: string; at?: string };
 
 const INSTAGRAM_URL = 'https://www.instagram.com/joevalleoficial/';
 
 const WELCOME =
-  'Olá! Sou o JoeBot, assistente virtual da campanha de Joe Valle. Estou aqui para conversar com você.\n\n' +
+  'Olá! Sou o FalaJoe, assistente virtual da campanha de Joe Valle. Estou aqui para conversar com você.\n\n' +
   'Posso ajudar a conhecer propostas, responder dúvidas e registrar sugestões para nossa cidade.';
 
 const formatTime = (date: Date) =>
@@ -146,7 +146,7 @@ const TRUST = [
 
 /* -------------------------------- componente ------------------------------- */
 
-export default function JoeBotChat() {
+export default function FalaJoeChat() {
   const [messages, setMessages] = useState<Message[]>([{ role: 'assistant', content: WELCOME }]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -301,7 +301,7 @@ export default function JoeBotChat() {
                   <BotAvatar />
                   <div>
                     <p className="name">
-                      JoeBot
+                      FalaJoe
                       <IconVerified />
                     </p>
                     <p className="role">Assistente virtual com IA</p>
@@ -350,7 +350,7 @@ export default function JoeBotChat() {
                 <div className="row bot">
                   <BotAvatar />
                   <div className="bubble bot">
-                    <span className="sr-only">JoeBot está escrevendo</span>
+                    <span className="sr-only">FalaJoe está escrevendo</span>
                     <div className="typing" aria-hidden="true">
                       <i />
                       <i />
@@ -364,11 +364,11 @@ export default function JoeBotChat() {
             </div>
 
             <div className="composer">
-              <label className="sr-only" htmlFor="joebot-input">
-                Digite sua mensagem para o JoeBot
+              <label className="sr-only" htmlFor="falajoe-input">
+                Digite sua mensagem para o FalaJoe
               </label>
               <input
-                id="joebot-input"
+                id="falajoe-input"
                 type="text"
                 autoComplete="off"
                 value={input}
