@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JoeBot | Joe Valle",
+  title: "FalaJoe | Joe Valle",
   description:
     "Assistente virtual da campanha de Joe Valle: tire dúvidas, conheça as propostas e envie sugestões.",
 };

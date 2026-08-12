@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* As cores e a tipografia da interface ficam em app/joebot.css. */
+/* As cores e a tipografia da interface ficam em app/falajoe.css. */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
