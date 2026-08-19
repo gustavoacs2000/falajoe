@@ -1,0 +1,91 @@
+/* ============================================================
+   FalaJoe — identidade visual da campanha 2026
+   Mantém layout e avatar atuais; troca apenas a IDV da pré-campanha.
+   ============================================================ */
+
+.page {
+  --orange: #08735f !important;
+  --orange-dark: #055747 !important;
+  --orange-soft: #e8f3ef !important;
+  --yellow: #b9d81d !important;
+  --green: #08735f !important;
+  --green-light: #eff5d8 !important;
+  --navy: #063e35 !important;
+  --text: #183f38 !important;
+  --muted: #667773 !important;
+  --border: #d8dedb !important;
+  --surface: #ffffff !important;
+  --page: #f4f0e6 !important;
+  --campaign-gradient: radial-gradient(
+    circle at 14% 82%,
+    #86ad72 0%,
+    #2a8b77 30%,
+    #08735f 62%,
+    #055747 100%
+  ) !important;
+}
+
+body {
+  background: #f4f0e6 !important;
+}
+
+/* Remove a identificação textual antiga de pré-campanha. */
+.page .candidate {
+  display: none !important;
+}
+
+/* Usa a logo oficial fornecida no Drive, sem redesenhar a marca. */
+.page .headline::before {
+  content: "";
+  display: block;
+  width: clamp(112px, 31vw, 154px);
+  aspect-ratio: 1684 / 1206;
+  margin: 0 0 6px;
+  border-radius: 10px;
+  background-color: rgba(244, 240, 230, 0.97);
+  background-image: url("https://drive.google.com/thumbnail?id=1Ko3EhLjH9TQe-6FXifet1299WG9mgIt9&sz=w1000");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: calc(100% - 12px) auto;
+  box-shadow: 0 8px 18px rgba(5, 87, 71, 0.14);
+}
+
+/* Mantém o elemento original para preservar o dimensionamento do layout,
+   mas troca visualmente a foto pela imagem oficial da campanha. */
+.page .photo {
+  background-image: url("https://raw.githubusercontent.com/gustavoacs2000/campanha-joe/main/public/joe-campanha-2026.webp") !important;
+  background-repeat: no-repeat !important;
+  background-position: left bottom !important;
+  background-size: contain !important;
+}
+
+.page .photo img {
+  opacity: 0 !important;
+  object-fit: contain !important;
+  object-position: left bottom !important;
+}
+
+.page .notice {
+  border-color: rgba(8, 115, 95, 0.25) !important;
+}
+
+.page .typing i {
+  background: rgba(8, 115, 95, 0.6) !important;
+}
+
+.page .send:hover {
+  background: #055747 !important;
+}
+
+@media (min-width: 1024px) {
+  .page .headline::before {
+    width: min(265px, 100%);
+    margin-bottom: 24px;
+    border-radius: 14px;
+    background-size: calc(100% - 20px) auto;
+  }
+
+  .page .headline .joe {
+    text-shadow: 0 4px 0 rgba(5, 87, 71, 0.28) !important;
+  }
+}

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./campaign.css";
 
 /* As cores e a tipografia da interface ficam em app/falajoe.css. */
 @theme inline {
