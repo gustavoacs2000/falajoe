@@ -29,6 +29,20 @@ body {
   background: #f4f0e6 !important;
 }
 
+/* Fixa explicitamente a IDV nova. Isso impede que o gradiente laranja
+   original da pré-campanha volte a aparecer por ordem de carregamento. */
+.page .main,
+.page .campaign {
+  background-color: #08735f !important;
+  background-image: radial-gradient(
+    circle at 14% 82%,
+    #86ad72 0%,
+    #2a8b77 30%,
+    #08735f 62%,
+    #055747 100%
+  ) !important;
+}
+
 /* Remove a identificação textual antiga de pré-campanha. */
 .page .candidate {
   display: none !important;
@@ -50,9 +64,9 @@ body {
   box-shadow: 0 8px 18px rgba(5, 87, 71, 0.14);
 }
 
-/* Mantém o elemento original para preservar o dimensionamento do layout,
-   mas troca visualmente a foto pela imagem oficial da campanha. */
+/* Foto oficial da campanha. */
 .page .photo {
+  background-color: transparent !important;
   background-image: url("https://raw.githubusercontent.com/gustavoacs2000/campanha-joe/main/public/joe-campanha-2026.webp") !important;
   background-repeat: no-repeat !important;
   background-position: left bottom !important;
@@ -78,6 +92,22 @@ body {
 }
 
 @media (min-width: 1024px) {
+  .page .main {
+    background-color: #08735f !important;
+    background-image: radial-gradient(
+      circle at 14% 82%,
+      #86ad72 0%,
+      #2a8b77 30%,
+      #08735f 62%,
+      #055747 100%
+    ) !important;
+  }
+
+  .page .campaign {
+    background-image: none !important;
+    background-color: transparent !important;
+  }
+
   .page .headline::before {
     width: min(265px, 100%);
     margin-bottom: 24px;
@@ -85,9 +115,6 @@ body {
     background-size: calc(100% - 20px) auto;
   }
 
-  /* O CSS original usa width:auto + translateX(-40%), o que funciona
-     com a foto antiga, mas esconde o novo background. No desktop a área
-     da foto passa a ter dimensões explícitas. */
   .page .photo {
     width: 52% !important;
     height: 92% !important;
